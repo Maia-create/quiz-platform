@@ -1,0 +1,59 @@
+[
+  {
+    "id": 1,
+    "title": "HTML საფუძვლები",
+    "difficulty": "მარტივი",
+    "timeLimit": 120,
+    "questions": [
+      {
+        "id": 1,
+        "question": "რას ნიშნავს HTML?",
+        "options": [
+          "HyperText Markup Language",
+          "High Text Machine Language",
+          "Home Tool Markup Language",
+          "HyperText Make Language"
+        ],
+        "correct": 0
+      },
+      {
+        "id": 2,
+        "question": "რომელი ტეგი განსაზღვრავს უდიდეს სათაურს?",
+        "options": ["<h6>", "<head>", "<h1>", "<title>"],
+        "correct": 2
+      },
+      {
+        "id": 3,
+        "question": "რომელი ტეგით იქმნება ბმული?",
+        "options": ["<link>", "<a>", "<href>", "<url>"],
+        "correct": 1
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "CSS საფუძვლები",
+    "difficulty": "საშუალო",
+    "timeLimit": 180,
+    "questions": [
+      {
+        "id": 1,
+        "question": "რომელი თვისებით იცვლება ტექსტის ფერი?",
+        "options": ["font-color", "text-color", "color", "foreground"],
+        "correct": 2
+      },
+      {
+        "id": 2,
+        "question": "რომელი სელექტორი ირჩევს კლასს?",
+        "options": ["#name", ".name", "*name", "&name"],
+        "correct": 1
+      },
+      {
+        "id": 3,
+        "question": "რომელი მნიშვნელობა ქმნის flex კონტეინერს?",
+        "options": ["display: flex", "position: flex", "flex: container", "layout: flex"],
+        "correct": 0
+      }
+    ]
+  }
+]
