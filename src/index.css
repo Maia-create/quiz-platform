@@ -38,7 +38,7 @@ body {
 
 :focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
 
-/* ── Scanline (ზედა ნეონის ხაზი) ───────────────── */
+
 html::before {
   content: "";
   position: fixed;
@@ -51,7 +51,7 @@ html::before {
 }
 @keyframes scan-glow { 0%, 100% { opacity: .4; } 50% { opacity: 1; } }
 
-/* ── Noise overlay ─────────────────────────────── */
+
 html::after {
   content: "";
   position: fixed;
@@ -62,7 +62,6 @@ html::after {
   pointer-events: none;
 }
 
-/* ── ფონი: მოძრავი კოდი, ციფრები, წერტილები, წრედის ბადე ── */
 body::before {
   content: "";
   position: fixed;
@@ -89,7 +88,7 @@ body::before {
   to   { transform: translate3d(-360px, -360px, 0); }
 }
 
-/* ── ფონის სინათლის ლაქები ───────────────────── */
+
 body::after {
   content: "";
   position: fixed;
@@ -107,7 +106,7 @@ body::after {
   to   { opacity: 1;   transform: scale(1.08); }
 }
 
-/* ── გვერდის განლაგება ───────────────────────── */
+
 #root {
   position: relative;
   z-index: 1;
@@ -118,7 +117,7 @@ body::after {
 }
 
 
-/* ── ნავიგაცია ───────────────────────────────── */
+
 nav {
   position: relative;
   z-index: 5;
@@ -167,7 +166,7 @@ nav a[aria-current="page"] {
 }
 .nav-user::before { content: "> "; opacity: .55; }
 
-/* ── გვერდის პანელი ──────────────────────────── */
+
 #root > div {
   position: relative;
   isolation: isolate;
@@ -199,7 +198,7 @@ nav a[aria-current="page"] {
 }
 @keyframes panel-rise { from { opacity: 0; transform: translateY(26px); } }
 
-/* პანელის შიგნითა ნისლი */
+
 #root > div::before {
   content: "";
   position: absolute;
@@ -218,7 +217,7 @@ nav a[aria-current="page"] {
   50%      { opacity: 1;  transform: translate(-50%, -35%) scale(1.2); }
 }
 
-/* აურორა ზედა კიდეზე */
+
 #root > div::after,
 .test-card::after {
   content: "";
@@ -238,7 +237,7 @@ nav a[aria-current="page"] {
   to   { background-position: 0 0, 0% 0; }
 }
 
-/* ── ტექსტი ──────────────────────────────────── */
+
 h2 {
   position: relative;
   z-index: 2;
@@ -296,7 +295,7 @@ a {
 }
 a:hover { border-color: var(--cyan); text-shadow: 0 0 14px rgba(96,207,255,.6); }
 
-/* ── ტესტის ბარათი ───────────────────────────── */
+
 .test-card {
   position: relative;
   isolation: isolate;
@@ -376,7 +375,7 @@ a:hover { border-color: var(--cyan); text-shadow: 0 0 14px rgba(96,207,255,.6); 
   color: rgba(var(--ac-l), .65);
 }
 
-/* ── ღილაკები ────────────────────────────────── */
+
 button,
 .test-card a {
   position: relative;
@@ -437,7 +436,7 @@ button:disabled {
   font-size: .72rem;
 }
 
-/* ფილტრის ღილაკები (chips) */
+
 .chip {
   margin: 0;
   padding: 9px 20px;
@@ -461,7 +460,7 @@ button:disabled {
   box-shadow: 0 0 18px rgba(0, 255, 163, .35);
 }
 
-/* ── პასუხის ვარიანტები ─────────────────────── */
+
 label {
   display: flex;
   align-items: center;
@@ -518,7 +517,7 @@ input[type="radio"]::after {
 input[type="radio"]:checked { border-color: var(--green-light); }
 input[type="radio"]:checked::after { transform: scale(1); }
 
-/* ── ველები და სია ───────────────────────────── */
+
 input:not([type="radio"]),
 select {
   font-family: var(--sans);
@@ -554,7 +553,7 @@ select {
 }
 select option { background: #04141a; color: #fff; }
 
-/* მთავარი / ისტორია: ბარათების ბადე */
+
 #root > div:has(.test-card) {
   width: min(1240px, calc(100% - 2 * clamp(12px, 3vw, 28px)));
   display: grid;
@@ -586,7 +585,7 @@ select option { background: #04141a; color: #fff; }
 }
 .chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
 
-/* ავტორიზაცია */
+
 #root > div:has(.auth-form) {
   display: flex;
   flex-direction: column;
@@ -633,7 +632,7 @@ select option { background: #04141a; color: #fff; }
   border-radius: 12px;
 }
 
-/* ── პროგრესის ზოლი ──────────────────────────── */
+
 .progress {
   position: relative;
   height: 4px;
@@ -660,7 +659,7 @@ select option { background: #04141a; color: #fff; }
   box-shadow: 0 0 10px 3px rgba(93, 255, 184, .95), 0 0 24px 8px rgba(96, 207, 255, .45);
 }
 
-/* ── რესპონსიულობა ───────────────────────────── */
+
 @media (max-height: 640px) {
   nav a, .nav-user { padding-top: 5px; padding-bottom: 5px; }
   p { font-size: .92em; }
@@ -673,7 +672,7 @@ select option { background: #04141a; color: #fff; }
   button, .test-card a { letter-spacing: 1px; }
 }
 
-/* ── მოძრაობის შემცირება ─────────────────────── */
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation: none !important;
