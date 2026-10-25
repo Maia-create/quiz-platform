@@ -1,9 +1,10 @@
 import { useReducer } from "react";
-import { useParams, useNavigate } from "react-router-dom";;
+import { useParams, useNavigate, Link } from "react-router-dom";
 import tests from "../data/tests.json";
 import { useTimer } from "../hooks/useTimer";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import ProgressBar from "../components/ProgressBar";
+import { useAuth } from "../context/AuthContext";
 
 const initialState = { current: 0, answers: {} };
 
@@ -26,34 +27,38 @@ function reducer(state, action) {
 function Test() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [history, setHistory] = useLocalStorage("history", []);
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const test = tests.find((t) => t.id === Number(id));
 
   const finish = () => {
-  if (!test) return;
+    if (!test) return;
 
-  const score = test.questions.filter(
-    (q, i) => state.answers[i] === q.correct
-  ).length;
+    const score = test.questions.filter(
+      (q, i) => state.answers[i] === q.correct,
+    ).length;
 
-  setHistory([
-    ...history,
-    {
-      id: Date.now(),
-      testId: test.id,
-      title: test.title,
-      score,
-      total: test.questions.length,
-      date: new Date().toLocaleString("ka-GE"),
-    },
-  ]);
+    if (user) {
+      setHistory([
+        ...history,
+        {
+          id: Date.now(),
+          userId: user.id,
+          testId: test.id,
+          title: test.title,
+          score,
+          total: test.questions.length,
+          date: new Date().toLocaleString("ka-GE"),
+        },
+      ]);
+    }
 
-  navigate("/results", {
-    state: { testId: test.id, answers: state.answers },
-  });
-};
+    navigate("/results", {
+      state: { testId: test.id, answers: state.answers },
+    });
+  };
 
   const timeLeft = useTimer(test ? test.timeLimit : 0, finish);
 
@@ -69,7 +74,15 @@ function Test() {
   return (
     <div>
       <h2>{test.title}</h2>
-      <p>დარჩენილი დრო: {minutes}:{seconds}</p>
+      {!user && (
+        <p className="notice">
+          ისტორიის სანახავად საჭიროა <Link to="/register">რეგისტრაცია</Link> ან{" "}
+          <Link to="/login">ავტორიზაცია</Link>. ამ ტესტის შედეგი არ შეინახება.
+        </p>
+      )}
+      <p>
+        დარჩენილი დრო: {minutes}:{seconds}
+      </p>
       <p>
         კითხვა {state.current + 1} / {total}
       </p>
@@ -90,20 +103,20 @@ function Test() {
         </div>
       ))}
 
- <div style={{ marginTop: 16 }}>
-  <button
-    onClick={() => dispatch({ type: "prev" })}
-    disabled={state.current === 0}
-  >
-    უკან
-  </button>
+      <div style={{ marginTop: 16 }}>
+        <button
+          onClick={() => dispatch({ type: "prev" })}
+          disabled={state.current === 0}
+        >
+          უკან
+        </button>
 
-  {state.current < total - 1 ? (
-    <button onClick={() => dispatch({ type: "next" })}>შემდეგი</button>
-  ) : (
-    <button onClick={finish}>დასრულება</button>
-  )}
-</div>
+        {state.current < total - 1 ? (
+          <button onClick={() => dispatch({ type: "next" })}>შემდეგი</button>
+        ) : (
+          <button onClick={finish}>დასრულება</button>
+        )}
+      </div>
     </div>
   );
 }

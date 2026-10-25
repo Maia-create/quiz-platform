@@ -22,7 +22,6 @@ body {
   background: #f2fbff;
 }
 
-
 body::before,
 body::after {
   content: "";
@@ -60,7 +59,6 @@ body::after {
     transform: translate3d(-2%, 6%, 0) rotate(-20deg) scale(1.05);
   }
 }
-
 
 #root {
   max-width: 760px;
@@ -101,7 +99,6 @@ nav a:hover {
   background: rgba(255, 255, 255, 0.7);
 }
 
-
 #root > div {
   position: relative;
   padding: 32px;
@@ -115,7 +112,6 @@ nav a:hover {
     0 30px 60px -30px rgba(40, 70, 150, 0.4);
   animation: settle 0.6s ease-out both;
 }
-
 
 #root > div::before {
   content: "";
@@ -166,7 +162,6 @@ a {
   font-weight: 600;
 }
 
-
 .test-card {
   position: relative;
   border: 1px solid rgba(255, 255, 255, 0.8);
@@ -192,7 +187,6 @@ a {
   transform: translateY(-2px);
   box-shadow: 0 10px 20px -8px rgba(27, 35, 64, 0.6);
 }
-
 
 label {
   display: flex;
@@ -237,7 +231,6 @@ input[type="radio"]:checked {
   transform: scale(1.12);
 }
 
-
 button {
   font-family: inherit;
   font-size: 15px;
@@ -261,7 +254,6 @@ button:disabled {
   opacity: 0.3;
   cursor: not-allowed;
 }
-
 
 .progress {
   height: 12px;
@@ -293,14 +285,12 @@ button:disabled {
   }
 }
 
-
 @media (max-width: 520px) {
   #root > div {
     padding: 22px 18px;
     border-radius: 26px;
   }
 }
-
 
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -310,7 +300,6 @@ button:disabled {
     transition: none !important;
   }
 }
-
 :root {
   --serif: "Noto Serif Georgian", serif;
   --sans: "Noto Sans Georgian", sans-serif;
@@ -343,7 +332,6 @@ nav {
   margin: 0 auto clamp(10px, 2vh, 22px);
 }
 
-
 #root > div {
   min-height: 0;
   overflow-y: auto;
@@ -355,7 +343,6 @@ nav {
 #root > div::-webkit-scrollbar {
   display: none;
 }
-
 
 h2 {
   font-family: var(--serif);
@@ -386,7 +373,6 @@ p {
   line-height: 1.45;
 }
 
-
 label {
   padding: clamp(8px, 1.5vh, 15px) 18px;
   margin: clamp(5px, 1vh, 10px) 0;
@@ -406,7 +392,6 @@ button {
   padding: clamp(14px, 2.4vh, 22px) clamp(16px, 2.4vw, 24px);
 }
 
-
 #root > div:has(.test-card) {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
@@ -424,7 +409,6 @@ button {
   justify-self: start;
 }
 
-
 @media (max-height: 640px) {
   nav a {
     padding: 6px 14px;
@@ -434,7 +418,6 @@ button {
   }
 }
 
-
 @media (max-width: 520px) {
   nav {
     width: 100%;
@@ -443,4 +426,111 @@ button {
   label:has(input:checked) {
     transform: translateX(4px);
   }
+}
+select {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-edge);
+  background: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+}
+
+#root > div:has(.test-card) > select {
+  grid-column: 1 / -1;
+  justify-self: start;
+}
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 380px;
+  margin-bottom: 16px;
+}
+
+input:not([type="radio"]) {
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--ink);
+  padding: 13px 18px;
+  border-radius: 18px;
+  border: 1px solid var(--glass-edge);
+  background: rgba(255, 255, 255, 0.6);
+  outline: none;
+  transition: box-shadow 0.2s;
+}
+
+input:not([type="radio"]):focus {
+  box-shadow: 0 0 0 2px var(--ink);
+}
+
+.error {
+  color: #c0392b;
+  font-weight: 600;
+  margin: 0;
+}
+
+.auth-form button {
+  align-self: flex-start;
+}
+
+.nav-user {
+  font-size: 15px;
+  font-weight: 700;
+  padding: 9px 12px;
+  color: var(--ink);
+}
+.notice {
+  padding: 12px 18px;
+  border-radius: 18px;
+  background: rgba(246, 243, 122, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  font-weight: 600;
+}
+
+.rules {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 13px;
+  display: grid;
+  gap: 3px;
+}
+
+.rules li {
+  color: #7a8099;
+  transition: color 0.2s;
+}
+
+.rules li.ok {
+  color: #137a6b;
+  font-weight: 700;
+}
+.filters {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.chips {
+  display: flex;
+  gap: 8px;
+}
+
+.chip {
+  margin: 0;
+  padding: 9px 20px;
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--ink);
+  border: 1px solid var(--glass-edge);
+}
+
+.chip.active {
+  background: var(--ink);
+  color: #fff;
 }
