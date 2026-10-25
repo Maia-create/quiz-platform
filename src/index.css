@@ -475,7 +475,7 @@ label {
   color: rgba(255, 255, 255, .82);
   cursor: pointer;
   border-radius: 12px;
-  background: rgba(255, 255, 255, .04);
+  background: rgba(9, 15, 27, .84);
   border: 1px solid rgba(255, 255, 255, .12);
   transition:
     border-color .3s, background .3s, box-shadow .3s, color .3s,
@@ -483,13 +483,13 @@ label {
 }
 label:hover {
   border-color: rgba(93, 255, 184, .4);
-  background: rgba(0, 255, 163, .05);
+  background: rgba(8, 28, 30, .9);
 }
 label:has(input:checked) {
   transform: translateX(8px);
   color: #fff;
   border-color: rgba(93, 255, 184, .75);
-  background: rgba(0, 255, 163, .08);
+  background: rgba(6, 36, 34, .92);
   box-shadow: 0 0 0 1px rgba(0, 255, 163, .2), 0 0 32px rgba(0, 255, 163, .2);
 }
 
@@ -526,7 +526,7 @@ select {
   font-weight: 300;
   letter-spacing: .5px;
   color: #fff;
-  background-color: rgba(255, 255, 255, .05);
+  background-color: rgba(9, 15, 27, .88);
   border: 1px solid rgba(255, 255, 255, .12);
   border-radius: 12px;
   padding: 13px 18px;
@@ -538,7 +538,7 @@ input::placeholder { color: rgba(255, 255, 255, .3); }
 input:not([type="radio"]):focus,
 select:focus {
   border-color: rgba(96, 207, 255, .6);
-  background-color: rgba(96, 207, 255, .05);
+  background-color: rgba(10, 24, 40, .92);
   box-shadow: 0 0 0 1px rgba(96,207,255,.2), 0 0 32px rgba(96,207,255,.18), 0 0 60px rgba(96,207,255,.08);
 }
 
@@ -579,7 +579,7 @@ select option { background: #04141a; color: #fff; }
   justify-content: center;
   gap: 12px 16px;
   padding: clamp(8px, 1.5vh, 12px) 16px;
-  background: rgba(2, 16, 18, .45);
+  background: rgba(6, 12, 22, .78);
   border: 1px solid rgba(96, 207, 255, .1);
   border-radius: 16px;
   box-shadow: 0 0 40px rgba(96, 207, 255, .04), inset 0 1px 0 rgba(255, 255, 255, .04);
@@ -627,7 +627,7 @@ select option { background: #04141a; color: #fff; }
   padding: 12px 16px;
   font-size: .86rem;
   color: rgba(255, 255, 255, .82);
-  background: rgba(96, 207, 255, .06);
+  background: rgba(10, 22, 38, .85);
   border: 1px solid rgba(96, 207, 255, .22);
   border-left: 3px solid var(--cyan);
   border-radius: 12px;
