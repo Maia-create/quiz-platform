@@ -41,7 +41,7 @@ function History() {
           </select>
 
           {sorted.map((item) => (
-            <div key={item.id} className="test-card">
+            <div key={item.id} className={`test-card ${item.title.startsWith("HTML") ? "topic-html" : "topic-css"}`}>
               <h3>{item.title}</h3>
               <p>
                 შედეგი: {item.score} / {item.total}
