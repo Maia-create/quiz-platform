@@ -38,6 +38,7 @@ body {
 
 :focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
 
+
 html::before {
   content: "";
   position: fixed;
@@ -49,6 +50,7 @@ html::before {
   animation: scan-glow 3s ease-in-out infinite;
 }
 @keyframes scan-glow { 0%, 100% { opacity: .4; } 50% { opacity: 1; } }
+
 
 html::after {
   content: "";
@@ -86,6 +88,7 @@ body::before {
   to   { transform: translate3d(-360px, -360px, 0); }
 }
 
+
 body::after {
   content: "";
   position: fixed;
@@ -103,6 +106,7 @@ body::after {
   to   { opacity: 1;   transform: scale(1.08); }
 }
 
+
 #root {
   position: relative;
   z-index: 1;
@@ -111,6 +115,7 @@ body::after {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
 }
+
 
 
 nav {
@@ -161,6 +166,7 @@ nav a[aria-current="page"] {
 }
 .nav-user::before { content: "> "; opacity: .55; }
 
+
 #root > div {
   position: relative;
   isolation: isolate;
@@ -192,6 +198,7 @@ nav a[aria-current="page"] {
 }
 @keyframes panel-rise { from { opacity: 0; transform: translateY(26px); } }
 
+
 #root > div::before {
   content: "";
   position: absolute;
@@ -209,6 +216,7 @@ nav a[aria-current="page"] {
   0%, 100% { opacity: .7; transform: translate(-50%, -35%) scale(1); }
   50%      { opacity: 1;  transform: translate(-50%, -35%) scale(1.2); }
 }
+
 
 #root > div::after,
 .test-card::after {
@@ -228,6 +236,7 @@ nav a[aria-current="page"] {
   from { background-position: 0 0, 100% 0; }
   to   { background-position: 0 0, 0% 0; }
 }
+
 
 h2 {
   position: relative;
@@ -285,6 +294,7 @@ a {
   transition: border-color .25s, text-shadow .25s;
 }
 a:hover { border-color: var(--cyan); text-shadow: 0 0 14px rgba(96,207,255,.6); }
+
 
 .test-card {
   position: relative;
@@ -365,6 +375,7 @@ a:hover { border-color: var(--cyan); text-shadow: 0 0 14px rgba(96,207,255,.6); 
   color: rgba(var(--ac-l), .65);
 }
 
+
 button,
 .test-card a {
   position: relative;
@@ -425,6 +436,7 @@ button:disabled {
   font-size: .72rem;
 }
 
+
 .chip {
   margin: 0;
   padding: 9px 20px;
@@ -447,6 +459,7 @@ button:disabled {
   border-color: var(--green-mid);
   box-shadow: 0 0 18px rgba(0, 255, 163, .35);
 }
+
 
 label {
   display: flex;
@@ -504,6 +517,7 @@ input[type="radio"]::after {
 input[type="radio"]:checked { border-color: var(--green-light); }
 input[type="radio"]:checked::after { transform: scale(1); }
 
+
 input:not([type="radio"]),
 select {
   font-family: var(--sans);
@@ -539,6 +553,7 @@ select {
 }
 select option { background: #04141a; color: #fff; }
 
+
 #root > div:has(.test-card) {
   width: min(1240px, calc(100% - 2 * clamp(12px, 3vw, 28px)));
   display: grid;
@@ -569,6 +584,7 @@ select option { background: #04141a; color: #fff; }
   box-shadow: 0 0 40px rgba(96, 207, 255, .04), inset 0 1px 0 rgba(255, 255, 255, .04);
 }
 .chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+
 
 #root > div:has(.auth-form) {
   display: flex;
@@ -616,6 +632,7 @@ select option { background: #04141a; color: #fff; }
   border-radius: 12px;
 }
 
+
 .progress {
   position: relative;
   height: 4px;
@@ -642,6 +659,7 @@ select option { background: #04141a; color: #fff; }
   box-shadow: 0 0 10px 3px rgba(93, 255, 184, .95), 0 0 24px 8px rgba(96, 207, 255, .45);
 }
 
+
 @media (max-height: 640px) {
   nav a, .nav-user { padding-top: 5px; padding-bottom: 5px; }
   p { font-size: .92em; }
@@ -653,6 +671,7 @@ select option { background: #04141a; color: #fff; }
   label:has(input:checked) { transform: translateX(4px); }
   button, .test-card a { letter-spacing: 1px; }
 }
+
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
