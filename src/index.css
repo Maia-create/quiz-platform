@@ -38,7 +38,7 @@ body {
 
 :focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
 
-
+/*ზედა ნეონის ხაზი */
 html::before {
   content: "";
   position: fixed;
@@ -62,7 +62,7 @@ html::after {
   pointer-events: none;
 }
 
-
+/* ── ფონი */
 body::before {
   content: "";
   position: fixed;
@@ -89,7 +89,7 @@ body::before {
   to   { transform: translate3d(-360px, -360px, 0); }
 }
 
-
+/*ფონის სინათლეები */
 body::after {
   content: "";
   position: fixed;
@@ -107,7 +107,7 @@ body::after {
   to   { opacity: 1;   transform: scale(1.08); }
 }
 
-
+/*გვერდის განლაგება */
 #root {
   position: relative;
   z-index: 1;
@@ -118,7 +118,7 @@ body::after {
 }
 
 
-
+/*ნავიგაცია */
 nav {
   position: relative;
   z-index: 5;
@@ -167,7 +167,7 @@ nav a[aria-current="page"] {
 }
 .nav-user::before { content: "> "; opacity: .55; }
 
-
+/*გვერდის პანელი */
 #root > div {
   position: relative;
   isolation: isolate;
@@ -183,6 +183,7 @@ nav a[aria-current="page"] {
     radial-gradient(55% 45% at 0% 0%,     rgba(0,255,163,.10),  transparent 70%),
     radial-gradient(55% 45% at 100% 0%,   rgba(140,120,255,.15), transparent 70%),
     radial-gradient(50% 40% at 100% 100%, rgba(255,140,66,.08),  transparent 70%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 560' width='1200' height='560'%3E%3Cg fill='none' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round' opacity='.22'%3E%3Crect x='70' y='170' width='320' height='210' rx='14' stroke='rgb(0,255,163)' stroke-opacity='.65'/%3E%3Cpath d='M70 205H390' stroke='rgb(0,255,163)' stroke-opacity='.45'/%3E%3Ccircle cx='92' cy='188' r='4' stroke='rgb(255,150,80)' stroke-opacity='.7'/%3E%3Ccircle cx='108' cy='188' r='4' stroke='rgb(160,130,255)' stroke-opacity='.7'/%3E%3Ccircle cx='124' cy='188' r='4' stroke='rgb(0,255,163)' stroke-opacity='.7'/%3E%3Ctext x='92' y='240' fill='rgb(0,255,163)' fill-opacity='.7' stroke='none' font-family='monospace' font-size='15'%3E$ whoami%3C/text%3E%3Ctext x='92' y='264' fill='rgb(0,255,163)' fill-opacity='.7' stroke='none' font-family='monospace' font-size='15'%3Eroot%3C/text%3E%3Ctext x='92' y='288' fill='rgb(0,255,163)' fill-opacity='.7' stroke='none' font-family='monospace' font-size='15'%3E$ nmap -sV target%3C/text%3E%3Ctext x='92' y='312' fill='rgb(0,255,163)' fill-opacity='.7' stroke='none' font-family='monospace' font-size='15'%3E[+] 3 open ports%3C/text%3E%3Ctext x='92' y='340' fill='rgb(0,255,163)' fill-opacity='.7' stroke='none' font-family='monospace' font-size='15'%3E$ _%3C/text%3E%3Cpath d='M600 150L730 198V300C730 380 668 430 600 460C532 430 470 380 470 300V198Z' stroke='rgb(96,207,255)' stroke-opacity='.75'/%3E%3Cpath d='M600 180L704 217V298C704 360 656 400 600 424C544 400 496 360 496 298V217Z' stroke='rgb(160,130,255)' stroke-opacity='.5' stroke-dasharray='4 8'/%3E%3Ccircle cx='600' cy='284' r='17' stroke='rgb(0,255,163)' stroke-opacity='.8'/%3E%3Cpath d='M592 299L584 346H616L608 299' stroke='rgb(0,255,163)' stroke-opacity='.8'/%3E%3Cpath d='M830 190C800 190 800 215 800 240C800 265 785 275 770 280C785 285 800 295 800 320C800 345 800 370 830 370' stroke='rgb(255,150,80)' stroke-opacity='.7'/%3E%3Cpath d='M1030 190C1060 190 1060 215 1060 240C1060 265 1075 275 1090 280C1075 285 1060 295 1060 320C1060 345 1060 370 1030 370' stroke='rgb(255,150,80)' stroke-opacity='.7'/%3E%3Cpath d='M885 255L857 280L885 305M950 240L920 320M985 255L1013 280L985 305' stroke='rgb(96,207,255)' stroke-opacity='.7'/%3E%3Cpath d='M90 500H390' stroke='rgb(160,130,255)' stroke-opacity='.6'/%3E%3Cpath d='M160 500C185 500 185 460 215 460H300C330 460 330 500 350 500' stroke='rgb(160,130,255)' stroke-opacity='.6'/%3E%3Ccircle cx='90' cy='500' r='7' stroke='rgb(160,130,255)' stroke-opacity='.8'/%3E%3Ccircle cx='160' cy='500' r='7' stroke='rgb(160,130,255)' stroke-opacity='.8'/%3E%3Ccircle cx='230' cy='500' r='7' stroke='rgb(160,130,255)' stroke-opacity='.8'/%3E%3Ccircle cx='300' cy='500' r='7' stroke='rgb(160,130,255)' stroke-opacity='.8'/%3E%3Ccircle cx='350' cy='500' r='7' stroke='rgb(160,130,255)' stroke-opacity='.8'/%3E%3Ccircle cx='390' cy='500' r='7' stroke='rgb(160,130,255)' stroke-opacity='.8'/%3E%3Ccircle cx='215' cy='460' r='7' stroke='rgb(160,130,255)' stroke-opacity='.8'/%3E%3Ccircle cx='300' cy='460' r='7' stroke='rgb(160,130,255)' stroke-opacity='.8'/%3E%3Ctext x='90' y='532' fill='rgb(160,130,255)' fill-opacity='.7' stroke='none' font-family='monospace' font-size='13'%3Emain%3C/text%3E%3Ctext x='215' y='444' fill='rgb(160,130,255)' fill-opacity='.7' stroke='none' font-family='monospace' font-size='13'%3Efeature/login%3C/text%3E%3Cpath d='M520 530H640L670 500H790L815 475H930' stroke='rgb(0,255,163)' stroke-opacity='.55'/%3E%3Cpath d='M700 548V520H760M880 548H960L985 523H1100' stroke='rgb(0,255,163)' stroke-opacity='.45'/%3E%3Cpath d='M470 500H500L520 520' stroke='rgb(0,255,163)' stroke-opacity='.45'/%3E%3Ccircle cx='520' cy='530' r='5' stroke='rgb(0,255,163)' stroke-opacity='.8'/%3E%3Ccircle cx='930' cy='475' r='5' stroke='rgb(0,255,163)' stroke-opacity='.8'/%3E%3Ccircle cx='760' cy='520' r='5' stroke='rgb(0,255,163)' stroke-opacity='.8'/%3E%3Ccircle cx='1100' cy='523' r='5' stroke='rgb(0,255,163)' stroke-opacity='.8'/%3E%3Ccircle cx='470' cy='500' r='5' stroke='rgb(0,255,163)' stroke-opacity='.8'/%3E%3Crect x='1000' y='410' width='120' height='70' rx='6' stroke='rgb(96,207,255)' stroke-opacity='.7'/%3E%3Cpath d='M1015 410V396M1015 480V494' stroke='rgb(96,207,255)' stroke-opacity='.55'/%3E%3Cpath d='M1037 410V396M1037 480V494' stroke='rgb(96,207,255)' stroke-opacity='.55'/%3E%3Cpath d='M1059 410V396M1059 480V494' stroke='rgb(96,207,255)' stroke-opacity='.55'/%3E%3Cpath d='M1081 410V396M1081 480V494' stroke='rgb(96,207,255)' stroke-opacity='.55'/%3E%3Cpath d='M1103 410V396M1103 480V494' stroke='rgb(96,207,255)' stroke-opacity='.55'/%3E%3Ctext x='1030' y='452' fill='rgb(96,207,255)' fill-opacity='.7' stroke='none' font-family='monospace' font-size='15'%3ECPU%3C/text%3E%3Cpath d='M424 420H436M430 414V426' stroke='rgb(96,207,255)' stroke-opacity='.7'/%3E%3Cpath d='M1154 300H1166M1160 294V306' stroke='rgb(160,130,255)' stroke-opacity='.7'/%3E%3Cpath d='M784 540H796M790 534V546' stroke='rgb(255,150,80)' stroke-opacity='.7'/%3E%3Cpath d='M534 200H546M540 194V206' stroke='rgb(0,255,163)' stroke-opacity='.7'/%3E%3Ctext x='860' y='430' fill='rgb(0,255,163)' fill-opacity='.55' stroke='none' font-family='monospace' font-size='14'%3E0xDEADBEEF%3C/text%3E%3C/g%3E%3C/svg%3E") 50% 100% / min(1200px, 100%) auto no-repeat,
     linear-gradient(160deg, rgba(9,13,24,.9) 0%, rgba(5,8,16,.93) 55%, rgba(8,13,20,.9) 100%) padding-box,
     linear-gradient(135deg, rgba(0,255,163,.75), rgba(96,207,255,.55) 50%, rgba(160,130,255,.75)) border-box;
   border: 1px solid transparent;
@@ -198,7 +199,7 @@ nav a[aria-current="page"] {
 }
 @keyframes panel-rise { from { opacity: 0; transform: translateY(26px); } }
 
-
+/* პანელის შიგნითა ნისლი */
 #root > div::before {
   content: "";
   position: absolute;
@@ -217,7 +218,7 @@ nav a[aria-current="page"] {
   50%      { opacity: 1;  transform: translate(-50%, -35%) scale(1.2); }
 }
 
-
+/* აურორა ზედა კიდეზე */
 #root > div::after,
 .test-card::after {
   content: "";
@@ -237,7 +238,7 @@ nav a[aria-current="page"] {
   to   { background-position: 0 0, 0% 0; }
 }
 
-
+/*ტექსტი */
 h2 {
   position: relative;
   z-index: 2;
@@ -295,7 +296,7 @@ a {
 }
 a:hover { border-color: var(--cyan); text-shadow: 0 0 14px rgba(96,207,255,.6); }
 
-
+/*ტესტის ბარათი*/
 .test-card {
   position: relative;
   isolation: isolate;
@@ -375,7 +376,7 @@ a:hover { border-color: var(--cyan); text-shadow: 0 0 14px rgba(96,207,255,.6); 
   color: rgba(var(--ac-l), .65);
 }
 
-
+/* ღილაკები */
 button,
 .test-card a {
   position: relative;
@@ -436,7 +437,7 @@ button:disabled {
   font-size: .72rem;
 }
 
-
+/* ფილტრის ღილაკები */
 .chip {
   margin: 0;
   padding: 9px 20px;
@@ -460,7 +461,7 @@ button:disabled {
   box-shadow: 0 0 18px rgba(0, 255, 163, .35);
 }
 
-
+/*პასუხის ვარიანტები */
 label {
   display: flex;
   align-items: center;
@@ -517,7 +518,7 @@ input[type="radio"]::after {
 input[type="radio"]:checked { border-color: var(--green-light); }
 input[type="radio"]:checked::after { transform: scale(1); }
 
-
+/*ველები და სია*/
 input:not([type="radio"]),
 select {
   font-family: var(--sans);
@@ -553,7 +554,7 @@ select {
 }
 select option { background: #04141a; color: #fff; }
 
-
+/* მთავარი / ისტორია: ბარათები */
 #root > div:has(.test-card) {
   width: min(1240px, calc(100% - 2 * clamp(12px, 3vw, 28px)));
   display: grid;
@@ -585,7 +586,7 @@ select option { background: #04141a; color: #fff; }
 }
 .chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
 
-
+/* ავტორიზაცია */
 #root > div:has(.auth-form) {
   display: flex;
   flex-direction: column;
@@ -632,7 +633,7 @@ select option { background: #04141a; color: #fff; }
   border-radius: 12px;
 }
 
-
+/* პროგრესის ზოლი */
 .progress {
   position: relative;
   height: 4px;
@@ -659,7 +660,7 @@ select option { background: #04141a; color: #fff; }
   box-shadow: 0 0 10px 3px rgba(93, 255, 184, .95), 0 0 24px 8px rgba(96, 207, 255, .45);
 }
 
-
+/*რესპონსიულობა*/
 @media (max-height: 640px) {
   nav a, .nav-user { padding-top: 5px; padding-bottom: 5px; }
   p { font-size: .92em; }
@@ -672,7 +673,7 @@ select option { background: #04141a; color: #fff; }
   button, .test-card a { letter-spacing: 1px; }
 }
 
-
+/* მოძრაობის შემცირება */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation: none !important;
