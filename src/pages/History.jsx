@@ -1,13 +1,36 @@
-import { useState } from "react";
-import { useLocalStorage } from "../hooks/useLocalStorage";
+import { useEffect, useState } from "react";
+import {
+  collection,
+  doc,
+  onSnapshot,
+  query,
+  where,
+  writeBatch,
+} from "firebase/firestore";
 import { useAuth } from "../context/AuthContext";
+import { db } from "../firebase";
 
 function History() {
   const { user } = useAuth();
-  const [history, setHistory] = useLocalStorage("history", []);
+  const [mine, setMine] = useState(null);
   const [sort, setSort] = useState("newest");
 
-  const mine = history.filter((h) => h.userId === user?.id);
+  useEffect(() => {
+    const q = query(collection(db, "history"), where("userId", "==", user.id));
+    return onSnapshot(
+      q,
+      (snap) => setMine(snap.docs.map((d) => ({ ...d.data(), docId: d.id }))),
+      () => setMine([]),
+    );
+  }, [user.id]);
+
+  const clearHistory = async () => {
+    const batch = writeBatch(db);
+    mine.forEach((h) => batch.delete(doc(db, "history", h.docId)));
+    await batch.commit();
+  };
+
+  if (mine === null) return <p>იტვირთება...</p>;
 
   const sorted = [...mine].sort((a, b) => {
     const pa = a.score / a.total;
@@ -42,14 +65,14 @@ function History() {
             </select>
             <button
               className="btn-danger"
-              onClick={() => setHistory(history.filter((h) => h.userId !== user.id))}
+              onClick={clearHistory}
             >
               ისტორიის გასუფთავება
             </button>
           </div>
 
           {sorted.map((item) => (
-            <div key={item.id} className={`test-card ${item.title.startsWith("HTML") ? "topic-html" : "topic-css"}`}>
+            <div key={item.docId} className={`test-card ${item.title.startsWith("HTML") ? "topic-html" : "topic-css"}`}>
               <h3>{item.title}</h3>
               <p>
                 შედეგი: {item.score} / {item.total}

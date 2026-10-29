@@ -1,10 +1,11 @@
 import { useReducer } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import tests from "../data/tests.json";
+import { useTests } from "../hooks/useTests";
 import { useTimer } from "../hooks/useTimer";
-import { useLocalStorage } from "../hooks/useLocalStorage";
 import ProgressBar from "../components/ProgressBar";
 import { useAuth } from "../context/AuthContext";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../firebase";
 
 const initialState = { current: 0, answers: {} };
 
@@ -26,33 +27,36 @@ function reducer(state, action) {
 
 function Test() {
   const { id } = useParams();
-  const navigate = useNavigate();
-  const { user } = useAuth();
-  const [history, setHistory] = useLocalStorage("history", []);
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const { tests, loading } = useTests();
+
+  if (loading) return <p>იტვირთება...</p>;
 
   const test = tests.find((t) => t.id === Number(id));
+  if (!test) return <p>ტესტი ვერ მოიძებნა</p>;
+
+  return <TestRun key={test.id} test={test} />;
+}
+
+function TestRun({ test }) {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const finish = () => {
-    if (!test) return;
-
     const score = test.questions.filter(
       (q, i) => state.answers[i] === q.correct,
     ).length;
 
     if (user) {
-      setHistory([
-        ...history,
-        {
-          id: Date.now(),
-          userId: user.id,
-          testId: test.id,
-          title: test.title,
-          score,
-          total: test.questions.length,
-          date: new Date().toLocaleString("ka-GE"),
-        },
-      ]);
+      addDoc(collection(db, "history"), {
+        id: Date.now(),
+        userId: user.id,
+        testId: test.id,
+        title: test.title,
+        score,
+        total: test.questions.length,
+        date: new Date().toLocaleString("ka-GE"),
+      }).catch(() => {});
     }
 
     navigate("/results", {
@@ -60,9 +64,7 @@ function Test() {
     });
   };
 
-  const timeLeft = useTimer(test ? test.timeLimit : 0, finish);
-
-  if (!test) return <p>ტესტი ვერ მოიძებნა</p>;
+  const timeLeft = useTimer(test.timeLimit, finish);
 
   const minutes = String(Math.floor(timeLeft / 60)).padStart(2, "0");
   const seconds = String(timeLeft % 60).padStart(2, "0");

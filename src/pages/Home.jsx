@@ -1,10 +1,11 @@
 import { useState } from "react";
-import tests from "../data/tests.json";
+import { useTests } from "../hooks/useTests";
 import TestCard from "../components/TestCard";
 
 const levels = ["შესავალი", "მარტივი", "საშუალო", "რთული", "ძალიან რთული"];
 
 function Home() {
+  const { tests, loading, error } = useTests();
   const [topic, setTopic] = useState("ყველა");
   const [level, setLevel] = useState("ყველა");
 
@@ -41,7 +42,11 @@ function Home() {
         </select>
       </div>
 
-      {filtered.length === 0 ? (
+      {loading ? (
+        <p>იტვირთება...</p>
+      ) : error ? (
+        <p className="error">ტესტების ჩატვირთვა ვერ მოხერხდა</p>
+      ) : filtered.length === 0 ? (
         <p>ტესტი ვერ მოიძებნა</p>
       ) : (
         filtered.map((test) => <TestCard key={test.id} test={test} />)

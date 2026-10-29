@@ -1,10 +1,15 @@
 import { useLocation, Link } from "react-router-dom";
-import tests from "../data/tests.json";
+import { useTests } from "../hooks/useTests";
 
 function Results() {
   const { state } = useLocation();
+  const { tests, loading } = useTests();
 
-  if (!state) {
+  if (loading) return <p>იტვირთება...</p>;
+
+  const test = state && tests.find((t) => t.id === state.testId);
+
+  if (!test) {
     return (
       <div>
         <p>შედეგი არ არის.</p>
@@ -17,7 +22,6 @@ function Results() {
     );
   }
 
-  const test = tests.find((t) => t.id === state.testId);
   const total = test.questions.length;
   const score = test.questions.filter(
     (q, i) => state.answers[i] === q.correct

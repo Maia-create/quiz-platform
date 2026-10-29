@@ -66,41 +66,51 @@ function Profile() {
 
     try {
       const avatar = await resizeImage(file);
-      updateProfile({ avatar });
-      setMessage({ ok: true, text: "სურათი განახლდა" });
+      const result = await updateProfile({ avatar });
+      setMessage(
+        result.ok
+          ? { ok: true, text: "სურათი განახლდა" }
+          : { ok: false, text: result.error },
+      );
     } catch {
       setMessage({ ok: false, text: "სურათის ჩატვირთვა ვერ მოხერხდა" });
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.firstName.trim() || !form.lastName.trim()) {
       setMessage({ ok: false, text: "შეავსეთ სახელი და გვარი" });
       return;
     }
-    const result = updateProfile({
+    const result = await updateProfile({
       name: `${form.firstName.trim()} ${form.lastName.trim()}`,
       email: form.email,
     });
-    setMessage(
-      result.ok
-        ? { ok: true, text: "მონაცემები შენახულია" }
-        : { ok: false, text: result.error },
-    );
+    if (!result.ok) {
+      setMessage({ ok: false, text: result.error });
+    } else if (result.emailSent) {
+      setMessage({
+        ok: true,
+        text: "მონაცემები შენახულია. ახალ ელფოსტაზე გაიგზავნა დადასტურების ბმული — ელფოსტა მასზე გადასვლის შემდეგ შეიცვლება",
+      });
+    } else {
+      setMessage({ ok: true, text: "მონაცემები შენახულია" });
+    }
   };
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     navigate("/");
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!window.confirm("ნამდვილად გსურთ პროფილის წაშლა? ისტორიაც წაიშლება.")) {
       return;
     }
-    deleteAccount();
-    navigate("/");
+    const result = await deleteAccount();
+    if (result.ok) navigate("/");
+    else setMessage({ ok: false, text: result.error });
   };
 
   const handleClose = () => {
@@ -142,9 +152,13 @@ function Profile() {
             <button
               type="button"
               className="btn-danger"
-              onClick={() => {
-                updateProfile({ avatar: null });
-                setMessage({ ok: true, text: "სურათი წაიშალა" });
+              onClick={async () => {
+                const result = await updateProfile({ avatar: null });
+                setMessage(
+                  result.ok
+                    ? { ok: true, text: "სურათი წაიშალა" }
+                    : { ok: false, text: result.error },
+                );
               }}
             >
               სურათის წაშლა

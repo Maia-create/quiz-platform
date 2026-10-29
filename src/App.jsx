@@ -12,7 +12,7 @@ import Profile from "./pages/Profile";
 const year = new Date().getFullYear();
 
 function App() {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
 
   return (
     <>
@@ -42,15 +42,19 @@ function App() {
           </NavLink>
         )}
       </nav>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/test/:id" element={<Test />} />
-        <Route path="/results" element={<Results />} />
-        <Route path="/history" element={user ? <History /> : <Navigate to="/login" />}/>
-        <Route path="/profile" element={user ? <Profile /> : <Navigate to="/login" />}/>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-      </Routes>
+      {loading ? (
+        <p>იტვირთება...</p>
+      ) : (
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/test/:id" element={<Test />} />
+          <Route path="/results" element={<Results />} />
+          <Route path="/history" element={user ? <History /> : <Navigate to="/login" />}/>
+          <Route path="/profile" element={user ? <Profile /> : <Navigate to="/login" />}/>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      )}
       <footer>
         <span>© {year} QUIZ_</span>
         <span className="footer-sep">·</span>

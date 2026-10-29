@@ -1,90 +1,154 @@
-import { createContext, useContext } from "react";
-import { useLocalStorage } from "../hooks/useLocalStorage";
+import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createUserWithEmailAndPassword,
+  deleteUser,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+  verifyBeforeUpdateEmail,
+} from "firebase/auth";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  onSnapshot,
+  query,
+  setDoc,
+  where,
+  writeBatch,
+} from "firebase/firestore";
+import { auth, db } from "../firebase";
 
 const AuthContext = createContext(null);
 
-async function hash(text) {
-  const data = new TextEncoder().encode(text);
-  const buffer = await crypto.subtle.digest("SHA-256", data);
-  return Array.from(new Uint8Array(buffer))
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
+const messages = {
+  "auth/email-already-in-use": "ეს ელფოსტა უკვე რეგისტრირებულია",
+  "auth/invalid-credential": "ელფოსტა ან პაროლი არასწორია",
+  "auth/invalid-email": "ელფოსტა არასწორია",
+  "auth/weak-password": "პაროლი ძალიან სუსტია",
+  "auth/too-many-requests": "ძალიან ბევრი მცდელობა, სცადეთ მოგვიანებით",
+  "auth/network-request-failed": "ინტერნეტთან კავშირი ვერ მოხერხდა",
+  "auth/requires-recent-login":
+    "ამ მოქმედებისთვის საჭიროა ხელახლა შესვლა — გამოდით და შედით თავიდან",
+};
+
+function errorText(err) {
+  return messages[err.code] || "დაფიქსირდა შეცდომა, სცადეთ თავიდან";
 }
 
 export function AuthProvider({ children }) {
-  const [users, setUsers] = useLocalStorage("users", []);
-  const [user, setUser] = useLocalStorage("currentUser", null);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let stopProfile = () => {};
+
+    const stopAuth = onAuthStateChanged(auth, (fbUser) => {
+      stopProfile();
+
+      if (!fbUser) {
+        setUser(null);
+        setLoading(false);
+        return;
+      }
+
+      stopProfile = onSnapshot(
+        doc(db, "users", fbUser.uid),
+        (snap) => {
+          const data = snap.data() || {};
+          setUser({
+            id: fbUser.uid,
+            email: fbUser.email,
+            name: data.name || fbUser.email,
+            avatar: data.avatar || null,
+          });
+          setLoading(false);
+        },
+        () => setLoading(false),
+      );
+    });
+
+    return () => {
+      stopProfile();
+      stopAuth();
+    };
+  }, []);
 
   const register = async (name, email, password) => {
-    const mail = email.trim().toLowerCase();
-
-    if (users.some((u) => u.email === mail)) {
-      return { ok: false, error: "ეს ელფოსტა უკვე რეგისტრირებულია" };
+    try {
+      const { user: fbUser } = await createUserWithEmailAndPassword(
+        auth,
+        email.trim().toLowerCase(),
+        password,
+      );
+      await setDoc(doc(db, "users", fbUser.uid), {
+        name: name.trim(),
+        avatar: null,
+      });
+      return { ok: true };
+    } catch (err) {
+      return { ok: false, error: errorText(err) };
     }
-
-    const newUser = {
-      id: Date.now(),
-      name: name.trim(),
-      email: mail,
-      passwordHash: await hash(password),
-    };
-
-    setUsers([...users, newUser]);
-    setUser({ id: newUser.id, name: newUser.name, email: newUser.email });
-    return { ok: true };
   };
 
   const login = async (email, password) => {
-    const mail = email.trim().toLowerCase();
-    const found = users.find((u) => u.email === mail);
-
-    if (!found || found.passwordHash !== (await hash(password))) {
-      return { ok: false, error: "ელფოსტა ან პაროლი არასწორია" };
-    }
-
-    setUser({
-      id: found.id,
-      name: found.name,
-      email: found.email,
-      avatar: found.avatar || null,
-    });
-    return { ok: true };
-  };
-
-  const logout = () => setUser(null);
-
-  const updateProfile = (changes) => {
-    const next = { ...changes };
-
-    if (next.name !== undefined) next.name = next.name.trim();
-    if (next.email !== undefined) {
-      next.email = next.email.trim().toLowerCase();
-      if (users.some((u) => u.email === next.email && u.id !== user.id)) {
-        return { ok: false, error: "ეს ელფოსტა უკვე რეგისტრირებულია" };
-      }
-    }
-
-    setUsers(users.map((u) => (u.id === user.id ? { ...u, ...next } : u)));
-    setUser({ ...user, ...next });
-    return { ok: true };
-  };
-
-  const deleteAccount = () => {
-    setUsers(users.filter((u) => u.id !== user.id));
     try {
-      const history = JSON.parse(localStorage.getItem("history")) || [];
-      localStorage.setItem(
-        "history",
-        JSON.stringify(history.filter((h) => h.userId !== user.id)),
-      );
-    } catch {
+      await signInWithEmailAndPassword(auth, email.trim().toLowerCase(), password);
+      return { ok: true };
+    } catch (err) {
+      return { ok: false, error: errorText(err) };
     }
-    setUser(null);
+  };
+
+  const logout = () => signOut(auth);
+
+  const updateProfile = async (changes) => {
+    const next = { ...changes };
+    let emailSent = false;
+
+    try {
+      if (next.email !== undefined) {
+        const mail = next.email.trim().toLowerCase();
+        delete next.email;
+        if (mail !== user.email) {
+          await verifyBeforeUpdateEmail(auth.currentUser, mail);
+          emailSent = true;
+        }
+      }
+      if (next.name !== undefined) next.name = next.name.trim();
+
+      await setDoc(doc(db, "users", user.id), next, { merge: true });
+      return { ok: true, emailSent };
+    } catch (err) {
+      return { ok: false, error: errorText(err) };
+    }
+  };
+
+  const deleteAccount = async () => {
+    const lastLogin = Date.parse(auth.currentUser.metadata.lastSignInTime);
+    if (Date.now() - lastLogin > 5 * 60 * 1000) {
+      return { ok: false, error: messages["auth/requires-recent-login"] };
+    }
+
+    try {
+      const mine = await getDocs(
+        query(collection(db, "history"), where("userId", "==", user.id)),
+      );
+      const batch = writeBatch(db);
+      mine.forEach((d) => batch.delete(d.ref));
+      await batch.commit();
+      await deleteDoc(doc(db, "users", user.id));
+      await deleteUser(auth.currentUser);
+      return { ok: true };
+    } catch (err) {
+      return { ok: false, error: errorText(err) };
+    }
   };
 
   return (
     <AuthContext.Provider
-      value={{ user, register, login, logout, updateProfile, deleteAccount }}
+      value={{ user, loading, register, login, logout, updateProfile, deleteAccount }}
     >
       {children}
     </AuthContext.Provider>
