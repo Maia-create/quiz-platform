@@ -42,14 +42,51 @@ export function AuthProvider({ children }) {
       return { ok: false, error: "ელფოსტა ან პაროლი არასწორია" };
     }
 
-    setUser({ id: found.id, name: found.name, email: found.email });
+    setUser({
+      id: found.id,
+      name: found.name,
+      email: found.email,
+      avatar: found.avatar || null,
+    });
     return { ok: true };
   };
 
   const logout = () => setUser(null);
 
+  const updateProfile = (changes) => {
+    const next = { ...changes };
+
+    if (next.name !== undefined) next.name = next.name.trim();
+    if (next.email !== undefined) {
+      next.email = next.email.trim().toLowerCase();
+      if (users.some((u) => u.email === next.email && u.id !== user.id)) {
+        return { ok: false, error: "ეს ელფოსტა უკვე რეგისტრირებულია" };
+      }
+    }
+
+    setUsers(users.map((u) => (u.id === user.id ? { ...u, ...next } : u)));
+    setUser({ ...user, ...next });
+    return { ok: true };
+  };
+
+  const deleteAccount = () => {
+    setUsers(users.filter((u) => u.id !== user.id));
+    try {
+      const history = JSON.parse(localStorage.getItem("history")) || [];
+      localStorage.setItem(
+        "history",
+        JSON.stringify(history.filter((h) => h.userId !== user.id)),
+      );
+    } catch {
+      // ისტორიის წაშლა ვერ მოხერხდა — ანგარიში მაინც იშლება
+    }
+    setUser(null);
+  };
+
   return (
-    <AuthContext.Provider value={{ user, register, login, logout }}>
+    <AuthContext.Provider
+      value={{ user, register, login, logout, updateProfile, deleteAccount }}
+    >
       {children}
     </AuthContext.Provider>
   );

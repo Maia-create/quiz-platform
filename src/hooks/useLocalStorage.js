@@ -11,7 +11,11 @@ export function useLocalStorage(key, initialValue) {
   });
 
   useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(value));
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch {
+      // მეხსიერება სავსეა ან მიუწვდომელია
+    }
   }, [key, value]);
 
   return [value, setValue];
