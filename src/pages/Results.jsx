@@ -4,7 +4,18 @@ import tests from "../data/tests.json";
 function Results() {
   const { state } = useLocation();
 
-  if (!state) return <p>შედეგი არ არის. <Link to="/">მთავარზე დაბრუნება</Link></p>;
+  if (!state) {
+    return (
+      <div>
+        <p>შედეგი არ არის.</p>
+        <div className="actions">
+          <Link to="/" className="btn">
+            მთავარზე დაბრუნება
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   const test = tests.find((t) => t.id === state.testId);
   const total = test.questions.length;
@@ -35,7 +46,11 @@ function Results() {
         );
       })}
 
-      <Link to="/">მთავარზე დაბრუნება</Link>
+      <div className="actions">
+        <Link to="/" className="btn">
+          მთავარზე დაბრუნება
+        </Link>
+      </div>
     </div>
   );
 }

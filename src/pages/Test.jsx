@@ -80,12 +80,20 @@ function Test() {
           <Link to="/login">ავტორიზაცია</Link>. ამ ტესტის შედეგი არ შეინახება.
         </p>
       )}
-      <p>
-        დარჩენილი დრო: {minutes}:{seconds}
-      </p>
-      <p>
-        კითხვა {state.current + 1} / {total}
-      </p>
+      <div className="test-stats">
+        <div className={timeLeft <= 30 ? "stat stat-warn" : "stat"}>
+          <span className="stat-label">დარჩენილი დრო</span>
+          <span className="stat-value">
+            {minutes}:{seconds}
+          </span>
+        </div>
+        <div className="stat">
+          <span className="stat-label">კითხვა</span>
+          <span className="stat-value">
+            {state.current + 1} / {total}
+          </span>
+        </div>
+      </div>
       <ProgressBar current={state.current} total={total} />
       <h3>{question.question}</h3>
 
@@ -103,7 +111,7 @@ function Test() {
         </div>
       ))}
 
-      <div style={{ marginTop: 16 }}>
+      <div className="test-nav">
         <button
           onClick={() => dispatch({ type: "prev" })}
           disabled={state.current === 0}

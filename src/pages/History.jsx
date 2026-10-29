@@ -33,12 +33,20 @@ function History() {
         <p>ისტორია ცარიელია</p>
       ) : (
         <>
-          <select value={sort} onChange={(e) => setSort(e.target.value)}>
-            <option value="newest">ყველაზე ახალი</option>
-            <option value="oldest">ყველაზე ძველი</option>
-            <option value="best">საუკეთესო შედეგი</option>
-            <option value="worst">ყველაზე ცუდი შედეგი</option>
-          </select>
+          <div className="history-toolbar">
+            <select value={sort} onChange={(e) => setSort(e.target.value)}>
+              <option value="newest">ყველაზე ახალი</option>
+              <option value="oldest">ყველაზე ძველი</option>
+              <option value="best">საუკეთესო შედეგი</option>
+              <option value="worst">ყველაზე ცუდი შედეგი</option>
+            </select>
+            <button
+              className="btn-danger"
+              onClick={() => setHistory(history.filter((h) => h.userId !== user.id))}
+            >
+              ისტორიის გასუფთავება
+            </button>
+          </div>
 
           {sorted.map((item) => (
             <div key={item.id} className={`test-card ${item.title.startsWith("HTML") ? "topic-html" : "topic-css"}`}>
@@ -49,11 +57,6 @@ function History() {
               <p>{item.date}</p>
             </div>
           ))}
-          <button
-            onClick={() => setHistory(history.filter((h) => h.userId !== user.id))}
-          >
-            ისტორიის გასუფთავება
-          </button>
         </>
       )}
     </div>
