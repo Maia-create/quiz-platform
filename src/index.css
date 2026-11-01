@@ -755,6 +755,36 @@ select option { background: #04141a; color: #fff; }
   .profile-card + .actions { justify-content: center; }
 }
 
+.confirm-card {
+  width: min(420px, calc(100% - 32px));
+  margin: auto;
+  padding: 0;
+  color: var(--text);
+  background: linear-gradient(160deg, #0b1122 0%, #060a14 100%);
+  border: 1px solid rgba(255, 107, 129, .45);
+  border-radius: 16px;
+  box-shadow: 0 0 40px rgba(255, 107, 129, .15), 0 20px 60px rgba(0, 0, 0, .7);
+}
+.confirm-card[open] { animation: dialog-in .35s cubic-bezier(.22, 1, .36, 1); }
+@keyframes dialog-in { from { transform: translateY(14px) scale(.97); } }
+.confirm-card::backdrop {
+  background: rgba(1, 7, 10, .7);
+  backdrop-filter: blur(4px);
+}
+.confirm-body {
+  padding: clamp(18px, 3vh, 26px);
+  text-align: center;
+}
+.confirm-body .actions { margin-top: 18px; }
+.confirm-body h3 { padding-inline: 36px; }
+.confirm-card .close-btn {
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  font-size: .85rem;
+}
+
 .success {
   margin: 0;
   font-size: .86rem;

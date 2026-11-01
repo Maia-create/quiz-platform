@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Avatar from "../components/Avatar";
+import ConfirmDialog from "../components/ConfirmDialog";
 
 function resizeImage(file, max = 256) {
   return new Promise((resolve, reject) => {
@@ -50,6 +51,7 @@ function Profile() {
     email: user.email,
   });
   const [message, setMessage] = useState(null);
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -105,9 +107,7 @@ function Profile() {
   };
 
   const handleDelete = async () => {
-    if (!window.confirm("ნამდვილად გსურთ პროფილის წაშლა? ისტორიაც წაიშლება.")) {
-      return;
-    }
+    setConfirmDelete(false);
     const result = await deleteAccount();
     if (result.ok) navigate("/");
     else setMessage({ ok: false, text: result.error });
@@ -203,10 +203,23 @@ function Profile() {
         <button type="button" className="btn-secondary" onClick={handleLogout}>
           გასვლა
         </button>
-        <button type="button" className="btn-danger" onClick={handleDelete}>
+        <button
+          type="button"
+          className="btn-danger"
+          onClick={() => setConfirmDelete(true)}
+        >
           პროფილის წაშლა
         </button>
       </div>
+
+      <ConfirmDialog
+        open={confirmDelete}
+        title="პროფილის წაშლა"
+        text="ნამდვილად გსურთ პროფილის წაშლა? ისტორიაც წაიშლება და ამას ვეღარ დააბრუნებთ."
+        confirmText="წაშლა"
+        onConfirm={handleDelete}
+        onCancel={() => setConfirmDelete(false)}
+      />
     </div>
   );
 }

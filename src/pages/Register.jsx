@@ -31,6 +31,11 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!form.firstName.trim() || !form.lastName.trim()) {
+      setError("შეავსეთ სახელი და გვარი");
+      return;
+    }
+
     if (!strong) {
       setError("პაროლი არ აკმაყოფილებს მოთხოვნებს");
       return;

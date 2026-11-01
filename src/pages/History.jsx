@@ -8,12 +8,14 @@ import {
   writeBatch,
 } from "firebase/firestore";
 import { useAuth } from "../context/AuthContext";
+import ConfirmDialog from "../components/ConfirmDialog";
 import { db } from "../firebase";
 
 function History() {
   const { user } = useAuth();
   const [mine, setMine] = useState(null);
   const [sort, setSort] = useState("newest");
+  const [confirmClear, setConfirmClear] = useState(false);
 
   useEffect(() => {
     const q = query(collection(db, "history"), where("userId", "==", user.id));
@@ -25,6 +27,7 @@ function History() {
   }, [user.id]);
 
   const clearHistory = async () => {
+    setConfirmClear(false);
     const batch = writeBatch(db);
     mine.forEach((h) => batch.delete(doc(db, "history", h.docId)));
     await batch.commit();
@@ -65,11 +68,20 @@ function History() {
             </select>
             <button
               className="btn-danger"
-              onClick={clearHistory}
+              onClick={() => setConfirmClear(true)}
             >
               ისტორიის გასუფთავება
             </button>
           </div>
+
+          <ConfirmDialog
+            open={confirmClear}
+            title="ისტორიის გასუფთავება"
+            text="ნამდვილად გსურთ ყველა შედეგის წაშლა? ამას ვეღარ დააბრუნებთ."
+            confirmText="გასუფთავება"
+            onConfirm={clearHistory}
+            onCancel={() => setConfirmClear(false)}
+          />
 
           {sorted.map((item) => (
             <div key={item.docId} className={`test-card ${item.title.startsWith("HTML") ? "topic-html" : "topic-css"}`}>
